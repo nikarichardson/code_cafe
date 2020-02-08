@@ -1,7 +1,5 @@
 # Code Cafe Coffee Shop Backend
 
-## Getting Started
-
 ### Installing Dependencies
 
 #### Python 3.7
@@ -48,66 +46,103 @@ flask run --reload
 
 The `--reload` flag will detect file changes and restart the server automatically.
 
-## Tasks
+## Endpoints
 
-### Setup Auth0
+**GET '/categories'** 
+- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
+- Request Arguments: None
+- Returns: An object with a single key, categories, that contains an object of id: category_string key:value pairs. 
+```
+{
+'1' : "Science",
+'2' : "Art",
+'3' : "Geography",
+'4' : "History",
+'5' : "Entertainment",
+'6' : "Sports"
+}
+```
+- Errors: If no categories are found, results in a 404 error. 
 
-1. Create a new Auth0 Account
-2. Select a unique tenant domain
-3. Create a new, single page web application
-4. Create a new API
-    - in API Settings:
-        - Enable RBAC
-        - Enable Add Permissions in the Access Token
-5. Create new API permissions:
-    - `get:drinks-detail`
-    - `post:drinks`
-    - `patch:drinks`
-    - `delete:drinks`
-6. Create new roles for:
-    - Barista
-        - can `get:drinks-detail`
-    - Manager
-        - can perform all actions
-7. Test your endpoints with [Postman](https://getpostman.com). 
-    - Register 2 users - assign the Barista role to one and Manager role to the other.
-    - Sign into each account and make note of the JWT.
-    - Import the postman collection `./starter_code/backend/udacity-fsnd-udaspicelatte.postman_collection.json`
-    - Right-clicking the collection folder for barista and manager, navigate to the authorization tab, and including the JWT in the token field (you should have noted these JWTs).
-    - Run the collection and correct any errors.
-    - Export the collection overwriting the one we've included so that we have your proper JWTs during review!
+**GET '/drinks'**
+- Fetches the short description of all the drinks in the menu. A public endpoint.  
+- Request Arguments: None 
+- Returns: 
+```
+{
+    'success': True,
+    'drinks': drinks
+}
+```
+where drinks is an array containing the short representation of all drinks. 
+- Errors: Results in 404 error if no questions found. If a problem has arisen with the query and the questions cannot be retrieved, results in a 422 error. 
 
-## TODOS 
-Best efforts should be made to catch common errors with @app.errorhandler decorated functions. ✓
 
-The following endpoints are implemented:
+**GET '/drinks-details'**
+- Returns the details of all drinks in the database, requiring the 'get:drinks-detail' permission. Public users cannot access this endpoint. 
+- Request Arguments: None
+- Returns:
+```
+{
+    'success': True,
+    'drinks': drinks
+}
+```
+ where drinks is an array containing the long representation of all the drinks. 
+ - Errors: Aborts in 404 error if no drinks can be found. If an error arises in retrieving the drinks, aborts in 422 error.  
 
-GET /drinks
-GET /drinks-detail
-POST /drinks
-PATCH /drinks/<id>
-DELETE /drinks/<id>
+ **POST '/drinks'**
+- Creates a new drink which requires the 'post:drinks' permission. 
+- Request Arguments: None 
+- Returns:
+```
+{
+    'success': True,
+    'drinks': [drink.long()]  
+}
+```
+where drink is the newly created drink and **drink.long()** returns the long (i.e. complete) representation of the drink. 
+- Errors: If no form data is found, aborts in 404 error. If there is an issue with creating the new drink, it will abort in a 422 error. 
 
-All required configuration settings are included in the auth.py file: ✓
-    ✓ The Auth0 
-    ✓ Domain Name
-    ✓ The Auth0 Client ID
+**PATCH '/drinks/<int:drink_id>'** 
+- Updates drink with <id> if the 'patch:drinks' permission is present in the payload. Only **Managers** can edit drinks. 
+- Request Arguments: drink_id 
+- Returns:
+```
+{
+    'success': True,
+    'drinks': [drink.long()]  
+}
+```
+wheredrink.long() is the complete description of the drink updated.
+- Errors: If no form data has been found, it will abort in a 404 error. If there is a problem updating the drink in question through the database connection, it will result in a 422 error. 
 
-A custom @requires_auth decorator is completed in ./backend/src/auth/auth.py
+**DELETE '/drinks/<int:drink_id>'** 
+- Deletes a drink with <id> if user has 'delete:drinks' permission. Only **Managers** have this permission.
+- Request Arguments: drink_id 
+- Returns: Returns the id of the deleted question when successful. 
+ ```
+{
+    'success': True,
+    'delete': drink_id, 
+})
+```
+- Errors: If any failure has resulted from the querying, it will abort in a 422 error. If the drink to be deleted does not exist, it will abort in a 404 error. 
 
-The @requires_auth decorator should:
-Get the Authorization header from the request.
-Decode and verify the JWT using the Auth0 secret.
-Take an argument to describe the action (i.e., @require_auth(‘create:drink’).
-Raise an error if:
-    The token is expired.
-    The claims are invalid.
-    The token is invalid.
-    The JWT doesn’t contain the proper action (i.e. create: drink).
+## Error Handling
+Errors are returned as JSON objects. See an example error handler below.
 
-The frontend has been configured with Auth0 variables and backend configuration.
-The ./frontend/src/environment/environment.ts file has been modified to include the student’s variables. ✓
+```
+{
+"success": False, 
+"error": 422,
+"message": "unprocessable"
+}), 422
+```
 
-The project demonstrates the ability to work across the stack.
-
-The frontend can be run locally with no errors with `ionic serve` and displays the expected results.
+This api will return the following errors: 
+	* **401:** Unauthorized
+	* **404:** Resource Not Found
+	* **422:** Not Processable 
+	- **500:** Internal Server Error
+	- **403:** Forbidden
