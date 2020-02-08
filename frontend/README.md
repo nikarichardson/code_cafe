@@ -1,8 +1,4 @@
-# Coffee Shop Frontend
-
-## Getting Setup
-
-> _tip_: this frontend is designed to work with [Flask-based Backend](../backend). It is recommended you stand up the backend first, test using Postman, and then the frontend should integrate smoothly.
+# Code Cafe Coffee Shop Frontend
 
 ### Installing Dependencies
 
@@ -43,13 +39,9 @@ ionic serve
 >_tip_: Do not use **ionic serve**  in production. Instead, build Ionic into a build artifact for your desired platforms.
 [Checkout the Ionic docs to learn more](https://ionicframework.com/docs/cli/commands/build)
 
-## Key Software Design Relevant to Our Coursework
-
-The frontend framework is a bit beefy; here are the two areas to focus your study.
-
 ### Authentication
 
-The authentication system used for this project is Auth0. `./src/services/auth.service.ts` contains the logic to direct a user to the Auth0 login page, managing the JWT token upon successful callback, and handle setting and retrieving the token from the local store. This token is then consumed by our DrinkService (`./src/services/auth.service.ts`) and passed as an Authorization header when making requests to our backend.
+The authentication system is Auth0. `./src/services/auth.service.ts` contains the logic to direct a user to the Auth0 login page, managing the JWT token upon successful callback, and handle setting and retrieving the token from the local store. This token is then consumed by our DrinkService (`./src/services/auth.service.ts`) and passed as an Authorization header when making requests to our backend.
 
 ### Authorization
 
