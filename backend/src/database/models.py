@@ -43,7 +43,7 @@ class Drink(db.Model):
     recipe =  Column(String(180), nullable=False)
 
     #[{'color': r['color'], 'parts': r['parts']} for r in json.loads(self.recipe)]
-    
+
     '''
     short()
         short form representation of the Drink model
@@ -51,13 +51,13 @@ class Drink(db.Model):
     def short(self):
         data = json.loads(self.recipe)
         dictionary = {}
-        dictionary['color'] = data['color']
-        dictionary['parts'] = data['parts']
-        short_recipe = dictionary 
+        #dictionary['color'] = data['color']
+        #dictionary['parts'] = data['parts']
+        #short_recipe = dictionary 
         return {
             'id': self.id,
             'title': self.title,
-            'recipe': short_recipe
+            'recipe': [{'color': r['color'], 'parts': r['parts']} for r in json.loads(self.recipe)]
         }
 
     '''

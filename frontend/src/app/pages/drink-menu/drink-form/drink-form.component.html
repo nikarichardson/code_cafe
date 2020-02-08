@@ -32,9 +32,10 @@
       <ion-button 
         [disabled]="!auth.can('delete:drinks')"
         (click)="deleteClicked()">Delete</ion-button><br />
-      <ion-button (click)="closeModal()">Cancel</ion-button>
+      <ion-button (click)="closeModal()">Cancel</ion-button> 
+      <!--  [disabled]="!auth.can('patch:drinks') || !auth.can('post:drinks')" -->
       <ion-button 
-        [disabled]="!auth.can('patch:drinks') || !auth.can('post:drinks')"
+        [disabled]="!auth.can('delete:drinks')"
         (click)="saveClicked()">Save</ion-button>
 
     </form>
