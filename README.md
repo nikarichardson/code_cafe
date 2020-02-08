@@ -1,6 +1,9 @@
 # Code Cafe App
+<img src="https://66.media.tumblr.com/b4597888f3b34bd1f53c1f68a6587b94/0b795c1705c90200-55/s1280x1920/5247dec10643bdf5e1c5b9ba2046bb1743be86d3.png"  width="250" height="350"  align="right">
 
 An app with a menu enabling students to order drinks. Displays graphics representing the ratios of ingredients for each drinks, allows public users to view drink names, allows **baristas** to see recipe information, and allows shop managers to create new drinks and edit existing drinks. Uses <a href="">Auth0</a> to authenticate and log users. 
+
+
 
 ## Tasks
 
