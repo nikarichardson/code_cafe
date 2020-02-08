@@ -47,23 +47,6 @@ flask run --reload
 The `--reload` flag will detect file changes and restart the server automatically.
 
 ## Endpoints
-
-**GET '/categories'** 
-- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
-- Request Arguments: None
-- Returns: An object with a single key, categories, that contains an object of id: category_string key:value pairs. 
-```
-{
-'1' : "Science",
-'2' : "Art",
-'3' : "Geography",
-'4' : "History",
-'5' : "Entertainment",
-'6' : "Sports"
-}
-```
-- Errors: If no categories are found, results in a 404 error. 
-
 **GET '/drinks'**
 - Fetches the short description of all the drinks in the menu. A public endpoint.  
 - Request Arguments: None 
@@ -137,12 +120,12 @@ Errors are returned as JSON objects. See an example error handler below.
 "success": False, 
 "error": 422,
 "message": "unprocessable"
-}), 422
+}, 422
 ```
 
 This api will return the following errors: 
-	* **401:** Unauthorized
-	* **404:** Resource Not Found
-	* **422:** Not Processable 
-	- **500:** Internal Server Error
-	- **403:** Forbidden
+* **401:** Unauthorized
+* **404:** Resource Not Found
+* **422:** Not Processable 
+* **500:** Internal Server Error
+* **403:** Forbidden
