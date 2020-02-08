@@ -12,13 +12,6 @@ An app with a menu enabling students to order drinks.
 <img src="https://66.media.tumblr.com/9b3e459432f3fda9ea90b0dee2b8aafb/7cddbaf1b736ff63-fe/s1280x1920/f6450b13958cf7c9509f4413cad137f4c71bb5b1.png">
 
 
-## Tasks
-
-There are `@TODO` comments throughout the project. We recommend tackling the sections in order. Start by reading the READMEs in:
-
-1. [`./backend/`](./backend/README.md)
-2. [`./frontend/`](./frontend/README.md)
-
 ### Backend
 
 The `./backend` directory contains a partially completed Flask server with a pre-written SQLAlchemy module to simplify your data needs. You will need to complete the required endpoints, configure, and integrate Auth0 for authentication.
