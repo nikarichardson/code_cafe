@@ -12,7 +12,6 @@ API_AUDIENCE = 'drink'
 
 '''
 AuthError Exception
-A standardized way to communicate auth failure modes
 '''
 class AuthError():
     def __init__(self, error, status_code):
@@ -21,13 +20,8 @@ class AuthError():
 
         abort(status_code)
 
-
-## Auth Header
-
 '''
-Obtains the access token from the authorization header. Tries to get the header 
-from the request and returns an error if no header is present. If the header is malformed,
-an authorization error is returned. 
+Obtains access token from header
 '''
 def get_token_auth_header():
     auth = request.headers.get('Authorization', None)
@@ -61,8 +55,7 @@ def get_token_auth_header():
     return token
 
 '''
-Checks that the required permission is included in the payload. Returns an authorization error if 
-permissions are not included or if the desired permission itself is not included in the payload. 
+Checks that permission is included in the payload
 '''
 def check_permissions(permission, payload):
     if 'permissions' not in payload:
@@ -81,8 +74,7 @@ def check_permissions(permission, payload):
         return True 
 
 '''
-Takes a json web token and verifies that it is an Auth0 token with key id with Autho0, decodes the payload
-from the token, validates the claims, and returns the decoded payload.  
+Takes a json web token and verifies it. 
 '''
 def verify_decode_jwt(token):
     jsonurl = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
@@ -137,10 +129,9 @@ def verify_decode_jwt(token):
             }, 400)
 
 """
-Uses the get_token_auth_header method to get the token. Uses the verify_decode_jwt method to decode the jwt.
-Validates claims with the check_permissions method and returns the decorator. 
+Uses the get_token_auth_header method to get token. 
 """
-def requires_auth(permission=''): # default to empty string, will be 
+def requires_auth(permission=''): 
     def requires_auth_decorator(f):
         @wraps(f)
         def wrapper(*args, **kwargs):
